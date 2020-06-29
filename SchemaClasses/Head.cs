@@ -10,5 +10,6 @@ namespace DtvnPOS.SchemaClasses
         public string BusinessName { get; set; }
         public string BusinessID { get; set; }
         public string BusinessAddress { get; set; }
+        public int BillID { get; set; }
     }
 }
