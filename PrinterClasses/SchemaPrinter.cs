@@ -52,7 +52,7 @@ namespace DtvnPOS.PrinterClasses
             Pos.Append(header.BusinessID);
             Pos.BoldMode(header.BillID.ToString());
             Pos.AlignLeft();
-            Pos.Append(System.DateTime.Today.ToString("g"));
+            Pos.Append(System.DateTime.Now.ToString("dd-MM-yyy hh:mm tt"));
             Pos.Separator();
         }
 
@@ -61,12 +61,18 @@ namespace DtvnPOS.PrinterClasses
             // Hardcoded table header. It needs to be changed to support multiple languages.
             // Exactly 42 dots.
             string tableHeader = "Descripción         Cantidad         Valor";
+            float total = 0;
             Pos.CondensedMode(PrinterModeState.On);
             Pos.Append(tableHeader);
             foreach (Product product in content.Products)
             {
                 Pos.Append(MakeProductLine(product));
+                total += product.ProductPrice * product.ProductQuantity;
             }
+            Pos.AlignRight();
+            Pos.Append("Total");
+            Pos.Append(total.ToString());
+            Pos.AlignLeft();
             Pos.CondensedMode(PrinterModeState.Off);
             Pos.Separator();
         }
@@ -84,7 +90,8 @@ namespace DtvnPOS.PrinterClasses
         private void AppendBloat()
         {
             Pos.AlignCenter();
-            Pos.Append("Dataven IS");
+            Pos.Append("Dataven POS");
+            Pos.Append("3184301032");
             Pos.AlignLeft();
             Pos.Separator();
         }
@@ -104,18 +111,35 @@ namespace DtvnPOS.PrinterClasses
             int totalPriceLimit = (int)(lineDots * 0.35)-1;
 
             string wsString = "";
-            for (int i = 0; i<wsLimit; i++)
-            {
-                wsString += " ";
-            }
             
             string nameString = 
                 (product.ProductName.Length>nameLimit) ? product.ProductName.Substring(0, nameLimit) : product.ProductName;
 
             string quantityString = (stringQuantity.Length > quantityLimit) ? "+ 1K" : stringQuantity;
 
-            string totalPriceString = "$" + ((stringTotalPrice.Length > totalPriceLimit) ? "+999999999999" : stringTotalPrice);
+            string totalPriceString = ((stringTotalPrice.Length > totalPriceLimit) ? "+999999999999" : stringTotalPrice);
+
+            nameString = FillString(nameString, nameLimit);
+            quantityString = FillString(quantityString, quantityLimit);
+            totalPriceString = InverseFillString(totalPriceString, totalPriceLimit);
+            wsString = FillString(wsString, wsLimit);
             return nameString+wsString+quantityString+wsString+totalPriceString;
+        }
+
+        private string FillString(string string2fill, int upperLimit)
+        {
+            while (string2fill.Length < upperLimit)
+            {
+                string2fill += " ";
+            }
+            return string2fill;
+        }
+
+        private string InverseFillString(string string2fill, int upperLimit)
+        {
+            int chars2fill = upperLimit - string2fill.Length;
+            string spacing = FillString("", chars2fill);
+            return spacing + string2fill;
         }
     }
 }
