@@ -14,7 +14,11 @@ namespace DtvnPOS.Helpers
             var lang = ConfigurationManager.AppSettings["lang"];
             switch (lang)
             {
-                case "en":
+                case "es":
+
+                    break;
+
+                default:
 
                     break;
             }

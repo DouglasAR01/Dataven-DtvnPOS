@@ -88,8 +88,10 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <EmbeddedResource Include="Resources\lang.es.resx" />
+    <EmbeddedResource Include="Resources\lang.en.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
