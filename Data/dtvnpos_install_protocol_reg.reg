@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\dtvnpos]
+@="URL:dtvnpos Protocol"
+"URL Protocol"=""
+[HKEY_CLASSES_ROOT\dtvnpos\shell]
+[HKEY_CLASSES_ROOT\dtvnpos\shell\open]
+[HKEY_CLASSES_ROOT\dtvnpos\shell\open\command]
+@="\"C:\\Users\\radou\\Desktop\\test\\dtvnpos.bat\" \"%1\""
